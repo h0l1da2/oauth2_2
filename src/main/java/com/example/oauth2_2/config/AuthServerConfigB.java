@@ -29,13 +29,36 @@ public class AuthServerConfigB extends AuthorizationServerConfigurerAdapter {
      * 암호 코드 그랜트 유형 설정
      * redirectUri 를 설정해줘야 함
      */
+//    @Override
+//    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//        clients.inMemory()
+//                .withClient("client")
+//                .secret("secret")
+//                .authorizedGrantTypes("authorization_code")
+//                .scopes("read")
+//                .redirectUris("http://localhost:8080/home");
+//    }
+
+    /**
+     * 클라이언트마다 그랜트 유형이 다르다면 ?
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("client")
-                .secret("secret")
+                .withClient("client1")
+                .secret("secret1")
                 .authorizedGrantTypes("authorization_code")
+                .scopes("read")
+                .redirectUris("http://localhost:8080/home")
+
+                .and()
+                .withClient("client2")
+                .secret("secret2")
+                // 승인 코드, 암호, 갱신 토큰 허가 모두 이용 가능
+                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
                 .scopes("read")
                 .redirectUris("http://localhost:8080/home");
     }
+
+
 }
